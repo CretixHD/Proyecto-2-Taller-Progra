@@ -11,18 +11,18 @@ class Main_window:
         self.canvas.pack(fill=BOTH, expand = YES)
         
         #Initial configurations for the menu's canvas
-        self.Menu(master)
+        self.Menu()
         
-    def Menu(self,master):
-        self.canvas = Canvas(master, width=1000, height=800) 
+    def Menu(self):
+        self.canvas = Canvas(self.master, width=1000, height=800) 
         self.canvas.place(x=0,y=0)
         #Create Background for menu
-        self.canvas.create_image(0,0, image = BG, anchor="nw")
+        #self.canvas.create_image(0,0, image = BG, anchor="nw")
         #Welcome message, and user info entries
         self.canvas.create_text(400,80,text= "Welcome to Moon Light", font=("Rocks__G", 42), fill="white")
         self.canvas.create_text(200, 690, text="Enter your nickname:", font= ("Arial", 26),fill="white")
         
-        self.player= Entry(master)
+        self.player= Entry(self.master)
         self.player.window = self.canvas.create_window(200, 720, window=self.player, width= 300)
 
         self.Level1_button= Button(self.canvas,bg="slate blue", text="Level_1", font=("Rocks__G", 22), fg="White", command=self.Level_1)
@@ -38,36 +38,39 @@ class Main_window:
         self.Credits_button.place(x=350, y=520)
 
         self.Score=0
+        self.stopFlag=False
         
     def Credits(self):
         #Important information of the developer
-        self.canvas = Canvas(self.master,width=800, height=1000)
-        self.canvas.place(x=0, y=0)
+        self.canvasC = Canvas(self.master,width=800, height=1000)
+        self.canvasC.place(x=0, y=0)
 
-        self.Country= Label(self.canvas, text="Costa Rica", font=("Arial", 22))
+        self.Country= Label(self.canvasC, text="Costa Rica", font=("Arial", 22))
         self.Country.place(x=300, y=25)
         
-        self.College= Label(self.canvas, text="Tecnológico de Costa Rica", font=("Arial", 22))
+        self.College= Label(self.canvasC, text="Tecnológico de Costa Rica", font=("Arial", 22))
         self.College.place(x=200, y=75)
         
-        self.Carreer= Label(self.canvas, text="Ingeniería en Computadores", font=("Arial", 22))
+        self.Carreer= Label(self.canvasC, text="Ingeniería en Computadores", font=("Arial", 22))
         self.Carreer.place(x=200, y=125)
         
-        self.Class_info= Label(self.canvas, text="Taller de Programación, 2021, Grupo 04", font=("Arial", 22))
+        self.Class_info= Label(self.canvasC, text="Taller de Programación, 2021, Grupo 04", font=("Arial", 22))
         self.Class_info.place(x=125, y=175)
         
-        self.Professor= Label(self.canvas, text="Luis Barboza Artavia", font=("Arial", 22))
+        self.Professor= Label(self.canvasC, text="Luis Barboza Artavia", font=("Arial", 22))
         self.Professor.place(x=250, y=225)
         
-        self.Version= Label(self.canvas, text="Version:", font=("Arial", 22))
+        self.Version= Label(self.canvasC, text="Version:", font=("Arial", 22))
         self.Version.place(x=320, y=325)
         
-        self.Author= Label(self.canvas, text="Christopher Hidalgo Delgado", font=("Arial", 22))
+        self.Author= Label(self.canvasC, text="Christopher Hidalgo Delgado", font=("Arial", 22))
         self.Author.place(x=200, y=375)
 
-        self.Menu_buttonC= Button(self.canvas,text="Main Menu", command = Menu)
+        self.Menu_buttonC= Button(self.canvasC,text="Main Menu", command = self.closeall)
         self.Menu_buttonC.place(x=350, y=600)
     #Window for level1
+    def CreditsR(self):
+        self.canvasC.delete("all")
     def Level_1(self):
             
         self.canvas = Canvas(self.master,width=800, height=1000)
@@ -78,6 +81,8 @@ class Main_window:
         self.ship_coords = self.canvas.coords(self.ship_1)
 
         self.bullet=PhotoImage(file="Bullet1.png")
+
+        
 
         self.Life_ship1= 50
         self.Life_ship1I = Label(self.canvas,text="P:",font=("Arial", 22))
@@ -99,6 +104,9 @@ class Main_window:
 
         self.dots = Label(self.canvas,text=":",font=("Arial", 22))
         self.dots.place(x=40, y=940)
+
+        self.Menu_button= Button(self.canvas,text="Main Menu", command = self.closeall)
+        self.Menu_button.place(x=500,y=900)
         
         #self.mainM_button= Button(self.canvas,text="Main Menu",command=self.Level_2(self.Score))
         #self.mainM_button.place(x=500,y=900)
@@ -110,11 +118,9 @@ class Main_window:
             if self.minute<=60:
                 self.second+=1
                 self.Score+=1
+                self.ScoreL.config(text="Score:"+str(self.Score))
                 if self.second>=60:
-                    self.minute += 1
-                    self.second = 0
-                if self.minute>= 60:
-                    self.minute = 0
+                    self.Level_2()
             self.canvas.after(1000,Timer)
             self.Second.config(text=self.second)
             self.Minute.config(text=self.minute)
@@ -255,8 +261,8 @@ class Main_window:
         self.dots2 = Label(self.canvas,text=":",font=("Arial", 22))
         self.dots2.place(x=40, y=940)
         
-        self.mainM_button2= Button(self.canvas,text="Main Menu",command=Menu)
-        self.mainM_button2.place(x=500,y=900)
+        self.Menu_button= Button(self.canvas,text="Main Menu", command = self.closeall)
+        self.Menu_button.place(x=500,y=900)
         
         self.minute2= 0
         self.second2= 0
@@ -506,11 +512,12 @@ class Main_window:
         self.dots3 = Label(self.canvas,text=":",font=("Arial", 22))
         self.dots3.place(x=40, y=940)
         
-        self.mainM_button3= Button(self.canvas,text="Main Menu",command=Menu)
-        self.mainM_button3.place(x=500,y=900)
+        self.Menu_button= Button(self.canvas,text="Main Menu", command = self.closeall)
+        self.Menu_button.place(x=500,y=900)
         
         self.minute3= 0
         self.second3= 0
+
         #Fuction for the timer
         def Timer3():
             if self.minute3<=60:
@@ -731,7 +738,16 @@ class Main_window:
         self.master.bind("<a>", left3)
         self.master.bind("<s>", down3)        
         self.master.bind("<KeyRelease-space>", shoot3)
-
+        
+    def closeall(self):
+            self.ScoreInfo = str(self.player.get())+":"+ str(self.Score)+"\n"
+            self.ScoreBoard = open("ScoreBoard.txt","a")
+            self.ScoreBoard.write(self.ScoreInfo)
+            self.ScoreBoard.close()
+            self.stopFlag=True
+            self.canvas.destroy()
+            #self.Menu()
+            
     def Winner(self):
 
         self.canvas = Canvas(self.master,width=800, height=1000)
@@ -753,7 +769,7 @@ class Main_window:
             
 #Essential game definitions
 root= Tk()
-BG = PhotoImage(file="backgroundmenu2.png")
+#BG = PhotoImage(file="backgroundmenu2.png")
 Main= Main_window(root)
 root.title("Operation Moon Light")
 root.iconbitmap("nave.ico")
