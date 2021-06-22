@@ -213,56 +213,39 @@ class Main_window:
 
     #Window for Level2    
     def Level_2(self):
-       
-        self.canvas = Canvas(self.master,width=800, height=1000)
-        self.canvas.place(x=0, y=0)
+            
+        self.canvasL2 = Canvas(self.master,width=800, height=1000)
+        self.canvasL2.place(x=0, y=0)
         #Important elements for the window, boss, info, and player.
         self.ship2= PhotoImage(file="Nave2.png")
-        self.ship_2= self.canvas.create_image(450,720, image= self.ship2)
-        self.ship_coords2 = self.canvas.coords(self.ship_2)
-       
-        self.enemy2 = PhotoImage(file="Enemy1.png")
-        self.enemy_2 =self.canvas.create_image(470, 100, image = self.enemy2)
-        
-        self.enemy_coords2 =self.canvas.coords(self.enemy_2)
-        
-        self.bullet4=PhotoImage(file="Bullet1.png")
-        
-        self.bullet30=PhotoImage(file="Bullet2.png")
-        self.bullet60=PhotoImage(file="Bullet2.png")
-        self.bullet90=PhotoImage(file="Bullet2.png")
-       
-        self.enemy_coords2 =self.canvas.coords(self.enemy_2)
+        self.ship_2= self.canvasL2.create_image(450,720, image= self.ship2)
+        self.ship_coords2 = self.canvasL2.coords(self.ship_2)
+
+        self.bullet2=PhotoImage(file="Bullet1.png")
 
         self.Life_ship2= 50
-        self.Life_ship2I = Label(self.canvas,text="P:",font=("Arial", 22))
+        self.Life_ship2I = Label(self.canvasL2,text="P:",font=("Arial", 22))
         self.Life_ship2I.place(x=650, y=860)
-        self.Life_ship3 = Label(self.canvas,text="50",font=("Arial", 22))
-        self.Life_ship3.place(x=700, y=860)
-
-        self.Life_enemy2=40
-        self.Life_enemy2I = Label(self.canvas,text="B:",font=("Arial", 22))
-        self.Life_enemy2I.place(x=650, y=900)
-        self.Life_enemy3 = Label(self.canvas,text="40",font=("Arial", 22))
-        self.Life_enemy3.place(x=700, y=900)
-
-        self.ScoreL2 = Label(self.canvas,text="Score:"+str(self.Score),font=("Arial", 22))
+        self.Life_ship2 = Label(self.canvasL2,text="50",font=("Arial", 22))
+        self.Life_ship2.place(x=700, y=860)
+        
+        self.ScoreL2=Label(self.canvasL2,text="Score: 0",font=("Arial", 22))
         self.ScoreL2.place(x=40, y=900)
 
-        self.Player_name =Label(self.canvas, text=self.player.get(), font=("Arial", 22))
-        self.Player_name.place (x=600, y=940)
+        self.Player_name2 =Label(self.canvasL2, text=self.player.get(), font=("Arial", 22))
+        self.Player_name2.place (x=700, y=940)
 
-        self.Second2 = Label(self.canvas,text="",font=("Arial", 22))
+        self.Second2 = Label(self.canvasL2,text="",font=("Arial", 22))
         self.Second2.place(x=60, y=940)
         
-        self.Minute2 = Label(self.canvas,text="",font=("Arial", 22))
+        self.Minute2 = Label(self.canvasL2,text="",font=("Arial", 22))
         self.Minute2.place(x=15, y=940)
 
-        self.dots2 = Label(self.canvas,text=":",font=("Arial", 22))
+        self.dots2 = Label(self.canvasL2,text=":",font=("Arial", 22))
         self.dots2.place(x=40, y=940)
-        
-        self.Menu_button= Button(self.canvas,text="Main Menu", command = self.closeall)
-        self.Menu_button.place(x=500,y=900)
+
+        self.Menu_button2= Button(self.canvasL2,text="Main Menu", command = self.closeall)
+        self.Menu_button2.place(x=500,y=900)
         
         self.minute2= 0
         self.second2= 0
@@ -270,190 +253,68 @@ class Main_window:
         def Timer2():
             if self.minute2<=60:
                 self.second2+=1
+                self.Score+=1
+                self.ScoreL2.config(text="Score:"+str(self.Score))
                 if self.second2>=60:
-                    self.minute2 += 1
-                    self.second2 = 0
-                if self.minute2>= 60:
-                    self.minute2 = 0
+                    self.Level_3()
             self.canvas.after(1000,Timer2)
             self.Second2.config(text=self.second2)
             self.Minute2.config(text=self.minute2)
-            
-        Timer2()
-        #Enemy movement
-        def enemy_TP():
-            self.random_coord2=random.randint(-700, 700)
-            if self.enemy_coords2[0]+self.random_coord2< 760 and self.enemy_coords2[0]+self.random_coord2> 80:
-                x=self.random_coord2
-                y=0
-                self.canvas.move(self.enemy_2, x,y)
-                self.canvas.after(2000,enemy_TP)
-                self.eb21= self.canvas.bbox(self.enemy_2)
-            else:
-                return enemy_TP()
-        
-        enemy_TP()
-        #Enemy attack
-        def shoot_enemy20():
-            self.enemy_coords2 =self.canvas.coords(self.enemy_2)
-            return projectile30(self.enemy_coords2[0], self.enemy_coords2[1])
-        
-        def projectile30(x,y):
-            self.bullet_30= self.canvas.create_image(x-10,y-100, image=self.bullet30)
-            return move_projectile30()
-
-        def move_projectile30():
-            self.bullet30_coords=self.canvas.coords(self.bullet_30)
-            self.p30b= self.canvas.bbox(self.bullet_30)
-            if self.sb2[0]<self.p30b[2]<self.sb2[2] and self.sb2[1]<self.p30b[1]<self.sb2[3]:
-                if self.Life_ship2 <= 0:
-                    return Lose2()
-                else:
-                    self.Life_ship2 -= 3
-                    self.Life_ship3.config(text=str(self.Life_ship2))
-                    print(self.Life_ship2)
-            if self.bullet30_coords[1]<780:
-                x=0
-                y=30
-                self.canvas.move(self.bullet_30,x,y)
-                self.canvas.after(10,move_projectile30)
-            else:
-                self.canvas.delete(self.bullet_30)
-                shoot_enemy20()
-        self.canvas.after(1000,shoot_enemy20)
-
-        def shoot_enemy30():
-            self.enemy_coords2 =self.canvas.coords(self.enemy_2)
-            return projectile60(self.enemy_coords2[0], self.enemy_coords2[1])
-
-        def projectile60(x,y):
-            self.bullet_60= self.canvas.create_image(x-10,y-100, image=self.bullet60)
-            return move_projectile60()
-
-        def move_projectile60():
-            self.bullet60_coords=self.canvas.coords(self.bullet_60)
-            self.p60b= self.canvas.bbox(self.bullet_60)
-            if self.sb2[0]<self.p60b[2]<self.sb2[2] and self.sb2[1]<self.p60b[1]<self.sb2[3]:
-                if self.Life_ship2 <= 0:
-                    return Lose2()
-                else:
-                    self.Life_ship2 -= 3
-                    self.Life_ship3.config(text=str(self.Life_ship2))
-                    print(self.Life_ship2)
-            if self.bullet60_coords[1]<780:
-                x=0
-                y=30
-                self.canvas.move(self.bullet_60,x,y)
-                self.canvas.after(10,move_projectile60)
-            else:
-                self.canvas.delete(self.bullet_60)
-                shoot_enemy30()
-        self.canvas.after(1200,shoot_enemy30)
-
-        def shoot_enemy40():
-            self.enemy_coords2 =self.canvas.coords(self.enemy_2)
-            return projectile90(self.enemy_coords2[0], self.enemy_coords2[1])
-
-        def projectile90(x,y):
-            self.bullet_90= self.canvas.create_image(x-10,y-100, image=self.bullet90)
-            return move_projectile90()
-
-        def move_projectile90():
-            self.bullet90_coords=self.canvas.coords(self.bullet_90)
-            self.p90b= self.canvas.bbox(self.bullet_90)
-            if self.sb2[0]<self.p90b[2]<self.sb2[2] and self.sb2[1]<self.p90b[1]<self.sb2[3]:
-                if self.Life_ship2 <= 0:
-                    return Lose2()
-                else:
-                    self.Life_ship2 -= 3
-                    self.Life_ship3.config(text=str(self.Life_ship2))
-                    print(self.Life_ship2)
-            if self.bullet90_coords[1]<780:
-                x=0
-                y=30
-                self.canvas.move(self.bullet_90,x,y)
-                self.canvas.after(10,move_projectile90)
-            else:
-                self.canvas.delete(self.bullet_90)
-                shoot_enemy40()
-        self.canvas.after(1450,shoot_enemy40)
-
-        def Lose2():
-
-            self.canvas = Canvas(self.master,width=800, height=1000)
-            self.canvas.place(x=0, y=0)
-            
-            self.LoserL= Label(self.canvas, text= "You failed the challenge",font=("Arial", 22))
-            self.LoserL.place(x=400,y=500)
-
-        
+        Timer2()     
         #Player ship and projectile movement
-            #Move ship +y
+        #Move ship +y
         def up2(event):
-            self.ship_coords2 = self.canvas.coords(self.ship_2)
-            self.sb2=self.canvas.bbox(self.ship_2)
+            self.ship_coords2 = self.canvasL2.coords(self.ship_2)
+            self.sb2=self.canvasL2.bbox(self.ship_2)
             if self.ship_coords2[1] > 80:
                 x=0
                 y=-10
-                self.canvas.move(self.ship_2,x,y)
+                self.canvasL2.move(self.ship_2,x,y)
         #Move ship +x
         def right2(event):
-            self.ship_coords2 = self.canvas.coords(self.ship_2)
-            self.sb2=self.canvas.bbox(self.ship_2)
+            self.ship_coords2 = self.canvasL2.coords(self.ship_2)
+            self.sb2=self.canvasL2.bbox(self.ship_2)
             if self.ship_coords2[0] < 720:
                 x=50
                 y=0
-                self.canvas.move(self.ship_2,x,y)
-        #Move ship -x
+                self.canvasL2.move(self.ship_2,x,y)
+        #Move ship -x  
         def left2(event):
-            self.ship_coords2 = self.canvas.coords(self.ship_2)
-            self.sb2=self.canvas.bbox(self.ship_2)
+            self.ship_coords2 = self.canvasL2.coords(self.ship_2)
+            self.sb2=self.canvasL2.bbox(self.ship_2)
             if self.ship_coords2[0] > 80:
                 x=-50
                 y=0
-                self.canvas.move(self.ship_2,x,y)
-        #Move ship -y
+                self.canvasL2.move(self.ship_2,x,y)
+        #Move ship -y   
         def down2(event):
-            self.ship_coords2 = self.canvas.coords(self.ship_2)
-            self.sb2=self.canvas.bbox(self.ship_2)
+            self.ship_coords2 = self.canvasL2.coords(self.ship_2)
+            self.sb2=self.canvasL2.bbox(self.ship_2)
             if self.ship_coords2[1] < 720:
                 x=0
                 y=10
-                self.canvas.move(self.ship_2,x,y)
-        #Projectile function(can shoot on projectile at a time)
+                self.canvasL2.move(self.ship_2,x,y)  
+        #Projectile function(can shoot one projectile at a time)
         def shoot2(event):
-            self.ship_coords2 =self.canvas.coords(self.ship_2)
+            self.ship_coords2 =self.canvasL2.coords(self.ship_2)
             return projectile2(self.ship_coords2[0], self.ship_coords2[1])
-
+        
         def projectile2(x,y):
-            self.bullet_4= self.canvas.create_image(x-10,y-100, image=self.bullet4)
+            self.bullet_2= self.canvasL2.create_image(x-10,y-100, image=self.bullet2)
             return move_projectile2()
-
+        
         def move_projectile2():
-            self.bullet_coords2=self.canvas.coords(self.bullet_4)
-            self.pb2= self.canvas.bbox(self.bullet_4)
-            if self.eb21[0]<self.pb2[2]<self.eb21[2] and self.eb21[1]<self.pb2[1]<self.eb21[3]:
-                if self.Life_enemy2 <= 0:
-                    Win2()
-                else:
-                    self.Score += 1
-                    self.ScoreL2.config(text="Score:"+str(self.Score))
-                    self.Life_enemy2 -= 2
-                    self.Life_enemy3.config(text=str(self.Life_enemy2))
-                    print(self.Life_enemy2)
+            self.bullet_coords2=self.canvasL2.coords(self.bullet_2)
+            self.pb2= self.canvasL2.bbox(self.bullet_2)
+          
             if self.bullet_coords2[1]>20:
                 x=0
                 y=-150
-                self.canvas.move(self.bullet_4,x,y)
-                self.canvas.after(100,move_projectile2)
+                self.canvasL2.move(self.bullet_2,x,y)
+                self.canvasL2.after(100,move_projectile2)
             else:
-                self.canvas.delete(self.bullet_4)
-        def Win2():
-            if self.Life_ship2 == 50:
-                self.Score += 50
-                self.Level_3()
-            else:
-                self.Level_3()
+                self.canvasL2.delete(self.bullet_2)
+            
         #Key bindings
         self.master.bind("<w>", up2)
         self.master.bind("<d>", right2)
@@ -469,32 +330,15 @@ class Main_window:
         #Important elements for the window, boss, info, and player.
         self.ship3= PhotoImage(file="Nave2.png")
         self.ship_3= self.canvas.create_image(450,720, image= self.ship3)
-        self.ship_coords3 = self.canvas.coords(self.ship_3)
-
-        self.enemy3 = PhotoImage(file="Enemy1.png")
-        self.enemy_3 =self.canvas.create_image(470, 100, image = self.enemy3)
+        self.ship_coords3 = self.canvas.coords(self.ship_3)  
         
-        self.enemy_coords3 =self.canvas.coords(self.enemy_3)
-        
-        self.bullet5=PhotoImage(file="Bullet1.png")
-        
-        self.bullet10=PhotoImage(file="Bullet2.png")
-        self.bullet20=PhotoImage(file="Bullet2.png")
-        self.bullet30=PhotoImage(file="Bullet2.png")
-       
-        self.enemy_coords3 =self.canvas.coords(self.enemy_3)
+        self.bullet3=PhotoImage(file="Bullet1.png")
 
         self.Life_ship4= 50
         self.Life_ship3I = Label(self.canvas,text="P:",font=("Arial", 22))
         self.Life_ship3I.place(x=650, y=860)
         self.Life_ship5 = Label(self.canvas,text="50",font=("Arial", 22))
         self.Life_ship5.place(x=700, y=860)
-
-        self.Life_enemy4=50
-        self.Life_enemy4I = Label(self.canvas,text="B:",font=("Arial", 22))
-        self.Life_enemy4I.place(x=650, y=900)
-        self.Life_enemy5 = Label(self.canvas,text="50",font=("Arial", 22))
-        self.Life_enemy5.place(x=700, y=900)
 
         #self.Score3 = 0
         self.ScoreL3 = Label(self.canvas,text="Score: 0",font=("Arial", 22))
@@ -522,146 +366,15 @@ class Main_window:
         def Timer3():
             if self.minute3<=60:
                 self.second3+=1
+                self.Score+=1
+                self.ScoreL3.config(text="Score:"+str(self.Score))
                 if self.second3>=60:
-                    self.minute3 += 1
-                    self.second3 = 0
-                if self.minute3>= 60:
-                    self.minute3 = 0
+                    self.LeaderBoard()
             self.canvas.after(1000,Timer3)
             self.Second3.config(text=self.second3)
             self.Minute3.config(text=self.minute3)
             
         Timer3()
-        #Enemy movement
-        def enemy_moveL3():
-            self.enemy_coords3 =self.canvas.coords(self.enemy_3)
-            self.eb3= self.canvas.bbox(self.enemy_3)
-            if self.enemy_coords3[0]< 760:
-                x=30
-                y=0
-                self.canvas.move(self.enemy_3, x,y)
-                self.canvas.after(70,enemy_moveL3)
-            else:
-                return enemy_moveR3()
-            
-        def enemy_moveR3():
-            self.enemy_coords3 = self.canvas.coords(self.enemy_3)
-            self.eb3= self.canvas.bbox(self.enemy_3)
-            if self.enemy_coords3[0]>80:
-                x=-30
-                y=0
-                self.canvas.move(self.enemy_3,x,y)
-                self.canvas.after(70,enemy_moveR3)
-            else:
-                return enemy_moveL3()
-            
-        enemy_moveL3()
-        #Strike return
-        def enemy_TP3():
-            self.random_coord3=random.randint(-700, 700)
-            if self.enemy_coords3[0]+self.random_coord3< 760 and self.enemy_coords3[0]+self.random_coord3> 80:
-                x=self.random_coord3
-                y=0
-                self.canvas.move(self.enemy_3, x,y)
-                self.canvas.after(2000,enemy_TP3)
-                self.eb31= self.canvas.bbox(self.enemy_3)
-            else:
-                return enemy_TP3()
-        
-        enemy_TP3()
-        #Enemy attack
-        def shoot_enemy10():
-            self.enemy_coords3 =self.canvas.coords(self.enemy_3)
-            return projectile10(self.enemy_coords3[0], self.enemy_coords3[1])
-        
-        def projectile10(x,y):
-            self.bullet_10= self.canvas.create_image(x-10,y-100, image=self.bullet10)
-            return move_projectile10()
-
-        def move_projectile10():
-            self.bullet10_coords=self.canvas.coords(self.bullet_10)
-            self.p10b= self.canvas.bbox(self.bullet_10)
-            if self.sb3[0]<self.p10b[2]<self.sb3[2] and self.sb3[1]<self.p10b[1]<self.sb3[3]:
-                if self.Life_ship4 <= 0:
-                    Lose3()
-                else:
-                    self.Life_ship4 -= 3
-                    self.Life_ship5.config(text=str(self.Life_ship4))
-                    print(self.Life_ship4)
-            if self.bullet10_coords[1]<780:
-                x=0
-                y=30
-                self.canvas.move(self.bullet_10,x,y)
-                self.canvas.after(10,move_projectile10)
-            else:
-                self.canvas.delete(self.bullet_10)
-                shoot_enemy10()
-        self.canvas.after(1000,shoot_enemy10)
-
-        def shoot_enemy20():
-            self.enemy_coords3 =self.canvas.coords(self.enemy_3)
-            return projectile20(self.enemy_coords3[0], self.enemy_coords3[1])
-        
-        def projectile20(x,y):
-            self.bullet_20= self.canvas.create_image(x-10,y-100, image=self.bullet20)
-            return move_projectile20()
-
-        def move_projectile20():
-            self.bullet20_coords=self.canvas.coords(self.bullet_20)
-            self.p20b= self.canvas.bbox(self.bullet_20)
-            if self.sb3[0]<self.p20b[2]<self.sb3[2] and self.sb3[1]<self.p20b[1]<self.sb3[3]:
-                if self.Life_ship4 <= 0:
-                    Lose3()
-                else:
-                    self.Life_ship4 -= 3
-                    self.Life_ship5.config(text=str(self.Life_ship4))
-                    print(self.Life_ship4)
-            if self.bullet20_coords[1]<780:
-                x=0
-                y=30
-                self.canvas.move(self.bullet_20,x,y)
-                self.canvas.after(10,move_projectile20)
-            else:
-                self.canvas.delete(self.bullet_20)
-                shoot_enemy20()
-        self.canvas.after(1200,shoot_enemy20)
-
-        def shoot_enemy30():
-            self.enemy_coords3 =self.canvas.coords(self.enemy_3)
-            return projectile30(self.enemy_coords3[0], self.enemy_coords3[1])
-        
-        def projectile30(x,y):
-            self.bullet_30= self.canvas.create_image(x-10,y-100, image=self.bullet30)
-            return move_projectile30()
-
-        def move_projectile30():
-            self.bullet30_coords=self.canvas.coords(self.bullet_30)
-            self.p30b= self.canvas.bbox(self.bullet_30)
-            if self.sb3[0]<self.p30b[2]<self.sb3[2] and self.sb3[1]<self.p30b[1]<self.sb3[3]:
-                if self.Life_ship4 <= 0:
-                    Lose3()
-                else:
-                    self.Life_ship4 -= 3
-                    self.Life_ship5.config(text=str(self.Life_ship4))
-                    print(self.Life_ship4)
-            if self.bullet30_coords[1]<780:
-                x=0
-                y=30
-                self.canvas.move(self.bullet_30,x,y)
-                self.canvas.after(10,move_projectile30)
-            else:
-                self.canvas.delete(self.bullet_30)
-                shoot_enemy30()
-        self.canvas.after(1450,shoot_enemy30)
-
-        def Lose3():
-
-            self.canvas = Canvas(self.master,width=800, height=1000)
-            self.canvas.place(x=0, y=0)
-            
-            self.LoserL= Label(self.canvas, text= self.Player_name.get+"You failed the challenge",font=("Arial", 22))
-            self.LoserL.place(x=400,y=500)
-
         
         #Player ship and projectile movement
         #Move ship +y
@@ -699,39 +412,23 @@ class Main_window:
         #Projectile function(can shoot on projectile at a time)
         def shoot3(event):
             self.ship_coords3 =self.canvas.coords(self.ship_3)
-            return projectile5(self.ship_coords3[0], self.ship_coords3[1])
+            return projectile3(self.ship_coords3[0], self.ship_coords3[1])
 
-        def projectile5(x,y):
-            self.bullet_5= self.canvas.create_image(x-10,y-100, image=self.bullet5)
-            return move_projectile5()
+        def projectile3(x,y):
+            self.bullet_5= self.canvas.create_image(x-10,y-100, image=self.bullet3)
+            return move_projectile3()
 
-        def move_projectile5():
-            self.bullet_coords5=self.canvas.coords(self.bullet_5)
-            self.pb5= self.canvas.bbox(self.bullet_5)
-            if self.eb31[0]<self.pb5[2]<self.eb31[2] and self.eb31[1]<self.pb5[1]<self.eb31[3]:
-                if self.Life_enemy4 <= 0:
-                    Win3()
-                else:
-                    #self.Score3 += 1
-                    #self.ScoreL3.config(text="Score:"+str(self.Score3))
-                    self.Life_enemy4 -= 2
-                    self.Life_enemy5.config(text=str(self.Life_enemy4))
-                    print(self.Life_enemy4)
-            if self.bullet_coords5[1]>20:
+        def move_projectile3():
+            self.bullet_coords3=self.canvas.coords(self.bullet3)
+            self.pb3= self.canvas.bbox(self.bullet3)
+            if self.bullet_coords3[1]>20:
                 x=0
                 y=-150
-                self.canvas.move(self.bullet_5,x,y)
-                self.canvas.after(100,move_projectile5)
+                self.canvas.move(self.bullet3,x,y)
+                self.canvas.after(100,move_projectile3)
             else:
-                self.canvas.delete(self.bullet_5)
-        def Win():
-            if self.Life_ship4 == 50:
-                #self.Score += 50
-                self.Winner()
-                    #self.Score
-            else:
-                self.Winner()
-                    #self.Score
+                self.canvas.delete(self.bullet3)
+
         #Key bindings
         self.master.bind("<w>", up3)
         self.master.bind("<d>", right3)
@@ -748,23 +445,6 @@ class Main_window:
             self.canvas.destroy()
             #self.Menu()
             
-    def Winner(self):
-
-        self.canvas = Canvas(self.master,width=800, height=1000)
-        self.canvas.place(x=0, y=0)
-
-        self.WinnerL= Label(self.canvas, text= self.Player_name.get+"You passed the challenge",font=("Arial", 22))
-        self.WinnerL.place(x=400,y=500)
-
-        #self.ScoreL= Label(self.canvas, text= self.Score,font=("Arial", 22))
-        #self.ScoreL.place(x=400,y=700)
-    def Loser_screen3(self):
-        
-        self.canvas = Canvas(self.master,width=800, height=1000)
-        self.canvas.place(x=0, y=0)
-
-        self.LoserL= Label(self.canvas, text= self.Player_name.get+"You failed the challenge",font=("Arial", 22))
-        self.LoserL.place(x=400,y=500)
 
             
 #Essential game definitions
