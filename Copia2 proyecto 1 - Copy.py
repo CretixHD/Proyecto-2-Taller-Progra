@@ -6,8 +6,8 @@ import pygame
 #Main class definition
 class Main_window:
     def __init__(self, master):
-        self.master = master
         
+        self.master = master
         self.canvas = Canvas(master, width=800, height=800) 
         self.canvas.pack(fill=BOTH, expand = YES)
         
@@ -15,33 +15,45 @@ class Main_window:
         self.Menu()
         
     def Menu(self):
+        #Main Menu canvas is shown
         self.canvas = Canvas(self.master, width=1000, height=800) 
         self.canvas.place(x=0,y=0)
+        
         #Create Background for menu
         self.canvas.create_image(0,0, image = BG, anchor="nw")
-        #Welcome message, and user info entries
+        
+        #Welcome message
         self.canvas.create_text(400,80,text= "Welcome to Moon Light", font=("Rocks__G", 42), fill="white")
         self.canvas.create_text(200, 690, text="Enter your nickname:", font= ("Arial", 26),fill="white")
-        
+
+        #Player name entry
         self.player= Entry(self.master)
         self.player.window = self.canvas.create_window(200, 720, window=self.player, width= 300)
 
+        #Level 1 button
         self.Level1_button= Button(self.canvas,bg="slate blue", text="Level_1", font=("Rocks__G", 22), fg="White", command=self.Level_1)
         self.Level1_button.place(x=100, y=450)
-        
+
+        #Level 2 button
         self.Level2_button= Button(self.canvas,bg="slate blue", text="Level_2", font=("Rocks__G", 22), fg="White", command=self.Level_2)
         self.Level2_button.place(x=480, y=275)
 
+        #Level 3 button
         self.Level3_button= Button(self.canvas,bg="slate blue", text="Level_3", font=("Rocks__G", 22), fg="White", command=self.Level_3)
         self.Level3_button.place(x= 500, y= 550)
-        
+
+        #Credits window button
         self.Credits_button= Button(self.canvas,bg="slate blue", text="Credits", font=("Rocks__G", 22), fg="White", command=self.Credits)
         self.Credits_button.place(x=600, y=660)
-        
+
+        #Leader Board window button
         self.Leaderboard_button= Button(self.canvas,bg="slate blue", text="Ranking", font=("Rocks__G", 22), fg="White", command=self.Leaderboard)
         self.Leaderboard_button.place(x=400, y=460)
 
+        #Defines game score as a global int for all levels
         self.Score=0
+
+        
         self.stopFlag=False
         
     def Credits(self):
@@ -93,14 +105,12 @@ class Main_window:
         self.mb2= self.canvas.bbox(self.meteorite_2)
         self.meteorite_3= self.canvas.create_image(450,120, image= self.meteorite)
         self.mb3= self.canvas.bbox(self.meteorite_3)
-        self.meteorite_4= self.canvas.create_image(650,220, image= self.meteorite)
-        self.mb4= self.canvas.bbox(self.meteorite_4)
         
         self.Life_ship1= 3
         self.Life_ship1I = Label(self.canvas,text="P:",font=("Arial", 20))
         self.Life_ship1I.place(x=650, y=660)
-        self.Life_ship = Label(self.canvas,text="3",font=("Arial", 20))
-        self.Life_ship.place(x=700, y=660)
+        self.Life_shipL = Label(self.canvas,text="3",font=("Arial", 20))
+        self.Life_shipL.place(x=700, y=660)
         
         self.ScoreL=Label(self.canvas,text="Score: 0",font=("Arial", 20))
         self.ScoreL.place(x=40, y=700)
@@ -157,11 +167,6 @@ class Main_window:
         self.move3U=True
         self.move3D=True
 
-        self.move4R=True
-        self.move4L=True
-        self.move4U=True
-        self.move4D=True
-        
         def coord_generator():
             
             self.xm1 = random.randint(10,30)
@@ -170,14 +175,12 @@ class Main_window:
             self.ym2 = random.randint(10,30)
             self.xm3 = random.randint(10,30)
             self.ym3 = random.randint(10,30)
-            self.xm4 = random.randint(10,30)
-            self.ym4 = random.randint(10,30)
             
         def move_meteorite():
             self.meteorite1_coords= self.canvas.coords(self.meteorite_1)
             if self.meteorite1_coords[0] < 750 and self.moveR == True:
-                self.m1b= self.canvas.bbox(self.meteorite_1)
                 self.canvas.move(self.meteorite_1,self.xm1,0)
+                self.m1b= self.canvas.bbox(self.meteorite_1)
             else:
                 if self.meteorite1_coords[0] > 50 and self.moveL == True:
                     self.canvas.move(self.meteorite_1,-(self.xm1),0)
@@ -240,30 +243,6 @@ class Main_window:
                 else:
                     self.move3D=True
 
-            self.meteorite4_coords= self.canvas.coords(self.meteorite_4)
-            if self.meteorite4_coords[0] < 750 and self.move4R == True:
-                self.canvas.move(self.meteorite_4,self.xm4,0)
-                self.m4b= self.canvas.bbox(self.meteorite_4)
-            else:
-                if self.meteorite4_coords[0] > 50 and self.move4L == True:
-                    self.canvas.move(self.meteorite_4,-(self.xm4),0)
-                    self.m4b= self.canvas.bbox(self.meteorite_4)
-                    self.move4R = False
-                else:
-                    self.move4R=True
-            if self.meteorite4_coords[1] < 750 and self.move4D == True:
-                self.canvas.move(self.meteorite_4,0,self.ym4)
-                self.m4b= self.canvas.bbox(self.meteorite_4)
-            else:
-                if self.meteorite4_coords[1] > 50 and self.move4U == True:
-                    self.canvas.move(self.meteorite_4,0,-(self.ym4))
-                    self.m4b= self.canvas.bbox(self.meteorite_4)
-                    self.move4D = False
-                else:
-                    self.move4D=True
-                    
-            
-            
             self.canvas.after(70,move_meteorite)
         coord_generator()
         move_meteorite()
@@ -277,6 +256,24 @@ class Main_window:
                 x=0
                 y=-10
                 self.canvas.move(self.ship_1,x,y)
+                
+            if self.Life_ship1 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+                if self.m1b[0]<self.sb[2]<self.m1b[2] and self.m1b[1]<self.sb[1]<self.m1b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+
+                if self.m2b[0]<self.sb[2]<self.m2b[2] and self.m2b[1]<self.sb[1]<self.m2b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+            
+                if self.m3b[0]<self.sb[2]<self.m3b[2] and self.m3b[1]<self.sb[1]<self.m3b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+                
         #Move ship +x
         def right(event):
             self.ship_coords = self.canvas.coords(self.ship_1)
@@ -285,6 +282,24 @@ class Main_window:
                 x=50
                 y=0
                 self.canvas.move(self.ship_1,x,y)
+
+            if self.Life_ship1 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+                if self.m1b[0]<self.sb[2]<self.m1b[2] and self.m1b[1]<self.sb[1]<self.m1b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+
+                if self.m2b[0]<self.sb[2]<self.m2b[2] and self.m2b[1]<self.sb[1]<self.m2b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+            
+                if self.m3b[0]<self.sb[2]<self.m3b[2] and self.m3b[1]<self.sb[1]<self.m3b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+                
         #Move ship -x  
         def left(event):
             self.ship_coords = self.canvas.coords(self.ship_1)
@@ -293,6 +308,24 @@ class Main_window:
                 x=-50
                 y=0
                 self.canvas.move(self.ship_1,x,y)
+
+            if self.Life_ship1 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+                if self.m1b[0]<self.sb[2]<self.m1b[2] and self.m1b[1]<self.sb[1]<self.m1b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+
+                if self.m2b[0]<self.sb[2]<self.m2b[2] and self.m2b[1]<self.sb[1]<self.m2b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+            
+                if self.m3b[0]<self.sb[2]<self.m3b[2] and self.m3b[1]<self.sb[1]<self.m3b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+                
         #Move ship -y   
         def down(event):
             self.ship_coords = self.canvas.coords(self.ship_1)
@@ -301,8 +334,24 @@ class Main_window:
                 x=0
                 y=10
                 self.canvas.move(self.ship_1,x,y)
-            #if self.sb
-           
+                
+            if self.Life_ship1 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+                if self.m1b[0]<self.sb[2]<self.m1b[2] and self.m1b[1]<self.sb[1]<self.m1b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+
+                if self.m2b[0]<self.sb[2]<self.m2b[2] and self.m2b[1]<self.sb[1]<self.m2b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+            
+                if self.m3b[0]<self.sb[2]<self.m3b[2] and self.m3b[1]<self.sb[1]<self.m3b[3]:
+                    self.Life_ship1 -= 1
+                    self.Life_shipL.config(text=str(self.Life_ship1))
+                
         #Key bindings
         self.master.bind("<w>", up)
         self.master.bind("<d>", right)
@@ -332,11 +381,11 @@ class Main_window:
 
         self.bullet2=PhotoImage(file="Bullet1.png")
 
-        self.Life_ship2= 50
+        self.Life_ship2 = 3
         self.Life_ship2I = Label(self.canvas,text="P:",font=("Arial", 20))
         self.Life_ship2I.place(x=650, y=660)
-        self.Life_ship2 = Label(self.canvas,text="3",font=("Arial", 20))
-        self.Life_ship2.place(x=700, y=660)
+        self.Life_ship2L = Label(self.canvas,text="3",font=("Arial", 20))
+        self.Life_ship2L.place(x=700, y=660)
         
         self.ScoreL2=Label(self.canvas,text="Score: 0",font=("Arial", 20))
         self.ScoreL2.place(x=40, y=700)
@@ -406,17 +455,21 @@ class Main_window:
             self.meteorite1_coords= self.canvas.coords(self.meteorite_1)
             if self.meteorite1_coords[0] < 750 and self.moveR == True:
                 self.canvas.move(self.meteorite_1,self.xm1,0)
+                self.m1b= self.canvas.bbox(self.meteorite_1)
             else:
                 if self.meteorite1_coords[0] > 50 and self.moveL == True:
                     self.canvas.move(self.meteorite_1,-(self.xm1),0)
+                    self.m1b= self.canvas.bbox(self.meteorite_1)
                     self.moveR = False
                 else:
                     self.moveR=True
             if self.meteorite1_coords[1] < 750 and self.moveD == True:
                 self.canvas.move(self.meteorite_1,0,self.ym1)
+                self.m1b= self.canvas.bbox(self.meteorite_1)
             else:
                 if self.meteorite1_coords[1] > 50 and self.moveU == True:
                     self.canvas.move(self.meteorite_1,0,-(self.ym1))
+                    self.m1b= self.canvas.bbox(self.meteorite_1)
                     self.moveD = False
                 else:
                     self.moveD=True
@@ -424,17 +477,21 @@ class Main_window:
             self.meteorite2_coords= self.canvas.coords(self.meteorite_2)
             if self.meteorite2_coords[0] < 750 and self.move2R == True:
                 self.canvas.move(self.meteorite_2,self.xm2,0)
+                self.m2b= self.canvas.bbox(self.meteorite_2)
             else:
                 if self.meteorite1_coords[0] > 50 and self.move2L == True:
                     self.canvas.move(self.meteorite_2,-(self.xm2),0)
+                    self.m2b= self.canvas.bbox(self.meteorite_2)
                     self.move2R = False
                 else:
                     self.move2R=True
             if self.meteorite2_coords[1] < 750 and self.move2D == True:
                 self.canvas.move(self.meteorite_2,0,self.ym2)
+                self.m2b= self.canvas.bbox(self.meteorite_2)
             else:
                 if self.meteorite2_coords[1] > 50 and self.move2U == True:
                     self.canvas.move(self.meteorite_2,0,-(self.ym2))
+                    self.m2b= self.canvas.bbox(self.meteorite_2)
                     self.move2D = False
                 else:
                     self.move2D=True
@@ -442,17 +499,21 @@ class Main_window:
             self.meteorite3_coords= self.canvas.coords(self.meteorite_3)
             if self.meteorite3_coords[0] < 750 and self.move3R == True:
                 self.canvas.move(self.meteorite_3,self.xm3,0)
+                self.m3b= self.canvas.bbox(self.meteorite_3)
             else:
                 if self.meteorite3_coords[0] > 50 and self.move3L == True:
                     self.canvas.move(self.meteorite_3,-(self.xm3),0)
+                    self.m3b= self.canvas.bbox(self.meteorite_3)
                     self.move3R = False
                 else:
                     self.move3R=True
             if self.meteorite3_coords[1] < 750 and self.move3D == True:
                 self.canvas.move(self.meteorite_3,0,self.ym3)
+                self.m3b= self.canvas.bbox(self.meteorite_3)
             else:
                 if self.meteorite3_coords[1] > 50 and self.move3U == True:
                     self.canvas.move(self.meteorite_3,0,-(self.ym3))
+                    self.m3b= self.canvas.bbox(self.meteorite_3)
                     self.move3D = False
                 else:
                     self.move3D=True
@@ -460,17 +521,21 @@ class Main_window:
             self.meteorite4_coords= self.canvas.coords(self.meteorite_4)
             if self.meteorite4_coords[0] < 750 and self.move4R == True:
                 self.canvas.move(self.meteorite_4,self.xm4,0)
+                self.m4b= self.canvas.bbox(self.meteorite_4)
             else:
                 if self.meteorite4_coords[0] > 50 and self.move4L == True:
                     self.canvas.move(self.meteorite_4,-(self.xm4),0)
+                    self.m4b= self.canvas.bbox(self.meteorite_4)
                     self.move4R = False
                 else:
                     self.move4R=True
             if self.meteorite4_coords[1] < 750 and self.move4D == True:
                 self.canvas.move(self.meteorite_4,0,self.ym4)
+                self.m4b= self.canvas.bbox(self.meteorite_4)
             else:
                 if self.meteorite4_coords[1] > 50 and self.move4U == True:
                     self.canvas.move(self.meteorite_4,0,-(self.ym4))
+                    self.m4b= self.canvas.bbox(self.meteorite_4)
                     self.move4D = False
                 else:
                     self.move4D=True
@@ -481,7 +546,8 @@ class Main_window:
         coord_generator()
         move_meteorite()
         
-        #Player ship and projectile movement
+        #Player ship movement and collision detection
+        
         #Move ship +y
         def up2(event):
             self.ship_coords2 = self.canvas.coords(self.ship_2)
@@ -490,14 +556,60 @@ class Main_window:
                 x=0
                 y=-10
                 self.canvas.move(self.ship_2,x,y)
+                
+            if self.Life_ship2 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+
+                if self.m1b[0]<self.sb2[2]<self.m1b[2] and self.m1b[1]<self.sb2[1]<self.m1b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+
+                if self.m2b[0]<self.sb2[2]<self.m2b[2] and self.m2b[1]<self.sb2[1]<self.m2b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+            
+                if self.m3b[0]<self.sb2[2]<self.m3b[2] and self.m3b[1]<self.sb2[1]<self.m3b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+                
+                if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+
         #Move ship +x
         def right2(event):
             self.ship_coords2 = self.canvas.coords(self.ship_2)
             self.sb2=self.canvas.bbox(self.ship_2)
+            
             if self.ship_coords2[0] < 720:
                 x=50
                 y=0
                 self.canvas.move(self.ship_2,x,y)
+                
+            if self.Life_ship2 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+                if self.m1b[0]<self.sb2[2]<self.m1b[2] and self.m1b[1]<self.sb2[1]<self.m1b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+
+                if self.m2b[0]<self.sb2[2]<self.m2b[2] and self.m2b[1]<self.sb2[1]<self.m2b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+            
+                if self.m3b[0]<self.sb2[2]<self.m3b[2] and self.m3b[1]<self.sb2[1]<self.m3b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+                
+                if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+                
         #Move ship -x  
         def left2(event):
             self.ship_coords2 = self.canvas.coords(self.ship_2)
@@ -506,41 +618,61 @@ class Main_window:
                 x=-50
                 y=0
                 self.canvas.move(self.ship_2,x,y)
+                
+            if self.Life_ship2 <= 0:
+                self.canvas.destroy()
+                
+            else:
+
+
+                if self.m1b[0]<self.sb2[2]<self.m1b[2] and self.m1b[1]<self.sb2[1]<self.m1b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+
+                if self.m2b[0]<self.sb2[2]<self.m2b[2] and self.m2b[1]<self.sb2[1]<self.m2b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+            
+                if self.m3b[0]<self.sb2[2]<self.m3b[2] and self.m3b[1]<self.sb2[1]<self.m3b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+                
+                if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+                
         #Move ship -y   
         def down2(event):
             self.ship_coords2 = self.canvas.coords(self.ship_2)
             self.sb2=self.canvas.bbox(self.ship_2)
-            if self.ship_coords2[1] < 720:
-                x=0
-                y=10
-                self.canvas.move(self.ship_2,x,y)  
-        #Projectile function(can shoot one projectile at a time)
-        def shoot2(event):
-            self.ship_coords2 =self.canvas.coords(self.ship_2)
-            return projectile2(self.ship_coords2[0], self.ship_coords2[1])
-        
-        def projectile2(x,y):
-            self.bullet_2= self.canvas.create_image(x-10,y-100, image=self.bullet2)
-            return move_projectile2()
-        
-        def move_projectile2():
-            self.bullet_coords2=self.canvas.coords(self.bullet_2)
-            self.pb2= self.canvas.bbox(self.bullet_2)
-          
-            if self.bullet_coords2[1]>20:
-                x=0
-                y=-150
-                self.canvas.move(self.bullet_2,x,y)
-                self.canvas.after(100,move_projectile2)
+            
+            if self.Life_ship2 <= 0:
+                self.canvas.destroy()
+                
             else:
-                self.canvas.delete(self.bullet_2)
+
+                if self.m1b[0]<self.sb2[2]<self.m1b[2] and self.m1b[1]<self.sb2[1]<self.m1b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+
+                if self.m2b[0]<self.sb2[2]<self.m2b[2] and self.m2b[1]<self.sb2[1]<self.m2b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+            
+                if self.m3b[0]<self.sb2[2]<self.m3b[2] and self.m3b[1]<self.sb2[1]<self.m3b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+                
+                if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
+                    self.Life_ship2 -= 1
+                    self.Life_ship2L.config(text=str(self.Life_ship2))
+            
             
         #Key bindings
         self.master.bind("<w>", up2)
         self.master.bind("<d>", right2)
         self.master.bind("<a>", left2)
         self.master.bind("<s>", down2)        
-        self.master.bind("<KeyRelease-space>", shoot2)
 
     #Window for level3
     def Level_3(self):
@@ -557,28 +689,27 @@ class Main_window:
 
         self.Life_ship4= 50
         self.Life_ship3I = Label(self.canvas,text="P:",font=("Arial", 22))
-        self.Life_ship3I.place(x=650, y=860)
+        self.Life_ship3I.place(x=650, y=660)
         self.Life_ship5 = Label(self.canvas,text="50",font=("Arial", 22))
-        self.Life_ship5.place(x=700, y=860)
+        self.Life_ship5.place(x=700, y=660)
 
-        #self.Score3 = 0
         self.ScoreL3 = Label(self.canvas,text="Score: 0",font=("Arial", 22))
-        self.ScoreL3.place(x=40, y=900)
+        self.ScoreL3.place(x=40, y=700)
 
-        self.Player_name =Label(self.canvas, text=self.name, font=("Arial", 22))
-        self.Player_name.place (x=600, y=940)
+        self.Player_name3 =Label(self.canvas, text=self.name, font=("Arial", 22))
+        self.Player_name3.place (x=700, y=700)
 
         self.Second3 = Label(self.canvas,text="",font=("Arial", 22))
-        self.Second3.place(x=60, y=940)
+        self.Second3.place(x=60, y=740)
         
         self.Minute3 = Label(self.canvas,text="",font=("Arial", 22))
-        self.Minute3.place(x=15, y=940)
+        self.Minute3.place(x=15, y=740)
 
         self.dots3 = Label(self.canvas,text=":",font=("Arial", 22))
-        self.dots3.place(x=40, y=940)
+        self.dots3.place(x=40, y=740)
         
         self.Menu_button= Button(self.canvas,text="Main Menu", command = self.closeall)
-        self.Menu_button.place(x=500,y=900)
+        self.Menu_button.place(x=700,y=740)
         
         self.minute3= 0
         self.second3= 0
@@ -586,11 +717,16 @@ class Main_window:
         #Fuction for the timer
         def Timer3():
             if self.minute3<=60:
-                self.second3+=1
-                self.Score+=1
+                self.second3+=5
+                self.Score+=5
                 self.ScoreL3.config(text="Score:"+str(self.Score))
                 if self.second3>=60:
-                    self.LeaderBoard()
+                    self.ScoreInfo = str(self.name)+":"+ str(self.Score)+"\n"
+                    self.ScoreBoard = open("ScoreBoard.txt","a")
+                    self.ScoreBoard.write(self.ScoreInfo)
+                    self.ScoreBoard.close()
+                    self.canvas.destroy()
+                    self.Leaderboard()
             self.canvas.after(1000,Timer3)
             self.Second3.config(text=self.second3)
             self.Minute3.config(text=self.minute3)
@@ -658,45 +794,34 @@ class Main_window:
         self.master.bind("<KeyRelease-space>", shoot3)
         
     def closeall(self):
-            self.ScoreInfo = str(self.name)+":"+ str(self.Score)+"\n"
-            self.ScoreBoard = open("ScoreBoard.txt","a")
-            self.ScoreBoard.write(self.ScoreInfo)
-            self.ScoreBoard.close()
-            self.stopFlag=True
-            #self.canvas.delete(self.Life_ship2I)
-            self.canvas.destroy()
+            
             self.canvas.destroy()
             
             self.Menu()
     def Leaderboard(self):
         self.name = self.player.get()
         #Important information of the developer
-        self.canvasC = Canvas(self.master,width=800, height=1000)
-        self.canvasC.place(x=0, y=0)
+        self.canvas = Canvas(self.master,width=800, height=1000)
+        self.canvas.place(x=0, y=0)
+        
+        self.ScoresLabel= Label(self.canvas, text = ""  , font=("Arial", 22))
+        self.ScoresLabel.place(x=300, y=25)
+        
+        self.ScoreBoard = open("ScoreBoard.txt","r")
+        self.Score_BoardA = self.ScoreBoard.read()
+        self.ScoresLabel.config(text= self.Score_BoardA)
+        self.ScoreBoard.close()
+        self.ScoreBoard = open("ScoreBoard.txt","r")
+        self.Score_Board = self.ScoreBoard.readlines()
+        
+        self.Score_Boardd = self.Score_Board[0].split("{")
+        self.Score_BoardN=self.Score_Boardd[0].split(":")
+        print(self.Score_BoardN[1])
+        self.ScoreBoard.close()
+        
 
-        self.Country= Label(self.canvasC, text="Costa Rica", font=("Arial", 22))
-        self.Country.place(x=300, y=25)
         
-        self.College= Label(self.canvasC, text="Tecnológico de Costa Rica", font=("Arial", 22))
-        self.College.place(x=200, y=75)
-        
-        self.Carreer= Label(self.canvasC, text="Ingeniería en Computadores", font=("Arial", 22))
-        self.Carreer.place(x=200, y=125)
-        
-        self.Class_info= Label(self.canvasC, text="Taller de Programación, 2021, Grupo 04", font=("Arial", 22))
-        self.Class_info.place(x=125, y=175)
-        
-        self.Professor= Label(self.canvasC, text="Luis Barboza Artavia", font=("Arial", 22))
-        self.Professor.place(x=250, y=225)
-        
-        self.Version= Label(self.canvasC, text="Version:", font=("Arial", 22))
-        self.Version.place(x=320, y=325)
-        
-        self.Author= Label(self.canvasC, text="Christopher Hidalgo Delgado", font=("Arial", 22))
-        self.Author.place(x=200, y=375)
 
-        self.Menu_buttonC= Button(self.canvasC,text="Main Menu", command = self.closeall)
-        self.Menu_buttonC.place(x=350, y=600)
 
             
 #Essential game definitions
