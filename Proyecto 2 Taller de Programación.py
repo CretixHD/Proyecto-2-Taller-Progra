@@ -945,7 +945,7 @@ class Main_window:
         #Fuction for the timer
         def Timer3():
             if self.minute3<=60:
-                self.second3+=0
+                self.second3+=1
                 self.Score+=5
                 self.ScoreL3.config(text="Score:"+str(self.Score))
                 #When 1 minutes is passed, player advances to LeaderBoard screen
