@@ -749,6 +749,7 @@ class Main_window:
                     if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
                         self.Life_ship2 -= 1
                         self.Life_ship2L.config(text=str(self.Life_ship2))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
         #Player ship movement and collision detection(validates if there is a collision with the meteorites each time the player moves the ship)
         #Move ship +x
@@ -788,6 +789,7 @@ class Main_window:
                     if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
                         self.Life_ship2 -= 1
                         self.Life_ship2L.config(text=str(self.Life_ship2))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
         #Player ship movement and collision detection(validates if there is a collision with the meteorites each time the player moves the ship)        
         #Move ship -x  
@@ -827,6 +829,7 @@ class Main_window:
                     if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
                         self.Life_ship2 -= 1
                         self.Life_ship2L.config(text=str(self.Life_ship2))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
         #Player ship movement and collision detection(validates if there is a collision with the meteorites each time the player moves the ship)        
         #Move ship -y   
@@ -861,6 +864,7 @@ class Main_window:
                     if self.m4b[0]<self.sb2[2]<self.m4b[2] and self.m4b[1]<self.sb2[1]<self.m4b[3]:
                         self.Life_ship2 -= 1
                         self.Life_ship2L.config(text=str(self.Life_ship2))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
             
             
@@ -1223,11 +1227,13 @@ class Main_window:
                     if self.m4b[0]<self.sb3[2]<self.m4b[2] and self.m4b[1]<self.sb3[1]<self.m4b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
                 if self.m5Flag==True:
                     if self.m5b[0]<self.sb3[2]<self.m5b[2] and self.m5b[1]<self.sb3[1]<self.m5b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m5Flag=False
                         self.canvas.delete(self.meteorite_5)
         #Player ship and projectile movement(validates if there is a collision with the meteorites each time the player moves the ship)        
         #Move ship +x
@@ -1266,11 +1272,13 @@ class Main_window:
                     if self.m4b[0]<self.sb3[2]<self.m4b[2] and self.m4b[1]<self.sb3[1]<self.m4b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
                 if self.m5Flag==True:
                     if self.m5b[0]<self.sb3[2]<self.m5b[2] and self.m5b[1]<self.sb3[1]<self.m5b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m5Flag=False
                         self.canvas.delete(self.meteorite_5)
         #Player ship and projectile movement(validates if there is a collision with the meteorites each time the player moves the ship)        
         #Move ship -x
@@ -1309,11 +1317,13 @@ class Main_window:
                     if self.m4b[0]<self.sb3[2]<self.m4b[2] and self.m4b[1]<self.sb3[1]<self.m4b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
                 if self.m5Flag==True:
                     if self.m5b[0]<self.sb3[2]<self.m5b[2] and self.m5b[1]<self.sb3[1]<self.m5b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m5Flag=False
                         self.canvas.delete(self.meteorite_5)
         #Player ship and projectile movement(validates if there is a collision with the meteorites each time the player moves the ship)       
         #Move ship -y
@@ -1352,11 +1362,13 @@ class Main_window:
                     if self.m4b[0]<self.sb3[2]<self.m4b[2] and self.m4b[1]<self.sb3[1]<self.m4b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m4Flag=False
                         self.canvas.delete(self.meteorite_4)
                 if self.m5Flag==True:
                     if self.m5b[0]<self.sb3[2]<self.m5b[2] and self.m5b[1]<self.sb3[1]<self.m5b[3]:
                         self.Life_ship3 -= 1
                         self.Life_ship3L.config(text=str(self.Life_ship3))
+                        self.m5Flag=False
                         self.canvas.delete(self.meteorite_5)
         #Key bindings
         self.master.bind("<w>", up3)
