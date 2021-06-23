@@ -1200,7 +1200,6 @@ class Main_window:
                 self.canvas.destroy()
                 
             else:
-
                 #Validates if the meteorites still exist and if it does, the collision
                 if self.m1Flag == True:
                     if self.m1b[0]<self.sb3[2]<self.m1b[2] and self.m1b[1]<self.sb3[1]<self.m1b[3]:
