@@ -89,7 +89,6 @@ class Main_window:
         self.meteorite=PhotoImage(file="Meteorito1.png")
         self.meteorite_1= self.canvas.create_image(450,220, image= self.meteorite)
         self.mb1= self.canvas.bbox(self.meteorite_1)
-        #print("p",self.mb1)
         self.meteorite_2= self.canvas.create_image(250,220, image= self.meteorite)
         self.mb2= self.canvas.bbox(self.meteorite_2)
         self.meteorite_3= self.canvas.create_image(450,120, image= self.meteorite)
@@ -100,7 +99,7 @@ class Main_window:
         self.Life_ship1= 3
         self.Life_ship1I = Label(self.canvas,text="P:",font=("Arial", 20))
         self.Life_ship1I.place(x=650, y=660)
-        self.Life_ship = Label(self.canvas,text="50",font=("Arial", 20))
+        self.Life_ship = Label(self.canvas,text="3",font=("Arial", 20))
         self.Life_ship.place(x=700, y=660)
         
         self.ScoreL=Label(self.canvas,text="Score: 0",font=("Arial", 20))
@@ -136,6 +135,7 @@ class Main_window:
                     self.Score+=1
                     self.ScoreL.config(text="Score:"+str(self.Score))
                     if self.second>=60:
+                        self.canvas.destroy()
                         self.Level_2()
                 self.canvas.after(1000,Timer)
                 self.Second.config(text=self.second)
@@ -146,36 +146,121 @@ class Main_window:
         self.moveL=True
         self.moveU=True
         self.moveD=True
+        
+        self.move2R=True
+        self.move2L=True
+        self.move2U=True
+        self.move2D=True
+
+        self.move3R=True
+        self.move3L=True
+        self.move3U=True
+        self.move3D=True
+
+        self.move4R=True
+        self.move4L=True
+        self.move4U=True
+        self.move4D=True
+        
         def coord_generator():
             
             self.xm1 = random.randint(10,30)
             self.ym1 = random.randint(10,30)
+            self.xm2 = random.randint(10,30)
+            self.ym2 = random.randint(10,30)
+            self.xm3 = random.randint(10,30)
+            self.ym3 = random.randint(10,30)
+            self.xm4 = random.randint(10,30)
+            self.ym4 = random.randint(10,30)
             
         def move_meteorite():
             self.meteorite1_coords= self.canvas.coords(self.meteorite_1)
             if self.meteorite1_coords[0] < 750 and self.moveR == True:
-                #self.canvas.move(self.meteorite_1,self.xm1,self.ym1)
+                self.m1b= self.canvas.bbox(self.meteorite_1)
                 self.canvas.move(self.meteorite_1,self.xm1,0)
             else:
-                #coord_generator()
                 if self.meteorite1_coords[0] > 50 and self.moveL == True:
-                    #self.canvas.move(self.meteorite_1,-(self.xm1),self.ym1)
                     self.canvas.move(self.meteorite_1,-(self.xm1),0)
+                    self.m1b= self.canvas.bbox(self.meteorite_1)
                     self.moveR = False
                 else:
                     self.moveR=True
-            if self.meteorite1_coords[1]+10 > 750 and self.moveD == True:
-                #coord_generator()
-                self.canvas.move(self.meteorite_1,0,-(self.ym1))
-                
+            if self.meteorite1_coords[1] < 750 and self.moveD == True:
+                self.canvas.move(self.meteorite_1,0,self.ym1)
+                self.m1b= self.canvas.bbox(self.meteorite_1)
             else:
-                #coord_generator()
-                if self.meteorite1_coords[1]+10 < 50 and self.moveU == True:
-                    self.canvas.move(self.meteorite_1,0,self.ym1)
-                    self.moveU = False
+                if self.meteorite1_coords[1] > 50 and self.moveU == True:
+                    self.canvas.move(self.meteorite_1,0,-(self.ym1))
+                    self.m1b= self.canvas.bbox(self.meteorite_1)
+                    self.moveD = False
                 else:
-                    self.canvas.move(self.meteorite_1,0,self.ym1)
                     self.moveD=True
+                    
+            self.meteorite2_coords= self.canvas.coords(self.meteorite_2)
+            if self.meteorite2_coords[0] < 750 and self.move2R == True:
+                self.canvas.move(self.meteorite_2,self.xm2,0)
+                self.m2b= self.canvas.bbox(self.meteorite_2)
+            else:
+                if self.meteorite1_coords[0] > 50 and self.move2L == True:
+                    self.canvas.move(self.meteorite_2,-(self.xm2),0)
+                    self.m2b= self.canvas.bbox(self.meteorite_2)
+                    self.move2R = False
+                else:
+                    self.move2R=True
+            if self.meteorite2_coords[1] < 750 and self.move2D == True:
+                self.canvas.move(self.meteorite_2,0,self.ym2)
+                self.m2b= self.canvas.bbox(self.meteorite_2)
+            else:
+                if self.meteorite2_coords[1] > 50 and self.move2U == True:
+                    self.canvas.move(self.meteorite_2,0,-(self.ym2))
+                    self.m2b= self.canvas.bbox(self.meteorite_2)
+                    self.move2D = False
+                else:
+                    self.move2D=True
+
+            self.meteorite3_coords= self.canvas.coords(self.meteorite_3)
+            if self.meteorite3_coords[0] < 750 and self.move3R == True:
+                self.canvas.move(self.meteorite_3,self.xm3,0)
+                self.m3b= self.canvas.bbox(self.meteorite_3)
+            else:
+                if self.meteorite3_coords[0] > 50 and self.move3L == True:
+                    self.canvas.move(self.meteorite_3,-(self.xm3),0)
+                    self.m3b= self.canvas.bbox(self.meteorite_3)
+                    self.move3R = False
+                else:
+                    self.move3R=True
+            if self.meteorite3_coords[1] < 750 and self.move3D == True:
+                self.canvas.move(self.meteorite_3,0,self.ym3)
+                self.m3b= self.canvas.bbox(self.meteorite_3)
+            else:
+                if self.meteorite3_coords[1] > 50 and self.move3U == True:
+                    self.canvas.move(self.meteorite_3,0,-(self.ym3))
+                    self.m3b= self.canvas.bbox(self.meteorite_3)
+                    self.move3D = False
+                else:
+                    self.move3D=True
+
+            self.meteorite4_coords= self.canvas.coords(self.meteorite_4)
+            if self.meteorite4_coords[0] < 750 and self.move4R == True:
+                self.canvas.move(self.meteorite_4,self.xm4,0)
+                self.m4b= self.canvas.bbox(self.meteorite_4)
+            else:
+                if self.meteorite4_coords[0] > 50 and self.move4L == True:
+                    self.canvas.move(self.meteorite_4,-(self.xm4),0)
+                    self.m4b= self.canvas.bbox(self.meteorite_4)
+                    self.move4R = False
+                else:
+                    self.move4R=True
+            if self.meteorite4_coords[1] < 750 and self.move4D == True:
+                self.canvas.move(self.meteorite_4,0,self.ym4)
+                self.m4b= self.canvas.bbox(self.meteorite_4)
+            else:
+                if self.meteorite4_coords[1] > 50 and self.move4U == True:
+                    self.canvas.move(self.meteorite_4,0,-(self.ym4))
+                    self.m4b= self.canvas.bbox(self.meteorite_4)
+                    self.move4D = False
+                else:
+                    self.move4D=True
                     
             
             
@@ -215,84 +300,14 @@ class Main_window:
             if self.ship_coords[1] < 720:
                 x=0
                 y=10
-                self.canvas.move(self.ship_1,x,y)  
-        #Projectile function(can shoot one projectile at a time)
-        def shoot(event):
-            self.ship_coords =self.canvas.coords(self.ship_1)
-            return projectile(self.ship_coords[0], self.ship_coords[1])
-        
-        def projectile(x,y):
-            self.bullet_1= self.canvas.create_image(x-10,y-100, image=self.bullet)
-            return move_projectile()
-        
-        self.damagem1=0
-        self.damagem2=0
-        self.damagem3=0
-        self.damagem4=0
-        
-        def move_projectile():
-            self.bullet_coords=self.canvas.coords(self.bullet_1)
-            self.bc=True
-            self.pb= self.canvas.bbox(self.bullet_1)
-            if self.mb1!=False:
-                if self.mb1[0]<self.pb[2]<self.mb1[2] and self.mb1[1]<self.pb[1]<self.mb1[3]:
-                    self.damagem1 += 1
-                    if self.damagem1 >= 3:
-                        pygame.mixer.music.load("Pop.mp3")
-                        pygame.mixer.music.play()
-                        self.canvas.delete(self.bullet_1)
-                        self.canvas.delete(self.meteorite_1)
-                        self.mb1 = False
-                        self.bc = False
-                        self.Score += 10
-            if self.mb2 != False:
-                if self.mb2[0]<self.pb[2]<self.mb2[2] and self.mb2[1]<self.pb[1]<self.mb2[3]:
-                    self.damagem2 += 1
-                    if self.damagem2 >= 3:
-                        pygame.mixer.music.load("Pop.mp3")
-                        pygame.mixer.music.play()
-                        self.canvas.delete(self.bullet_1)
-                        self.canvas.delete(self.meteorite_2)
-                        self.mb2 = False
-                        self.bc = False
-                        self.Score += 10
-            if self.mb3 != False:
-                if self.mb3[0]<self.pb[2]<self.mb3[2] and self.mb3[1]<self.pb[1]<self.mb3[3]:
-                    self.damagem3 += 1
-                    if self.damagem3 >= 3:
-                        pygame.mixer.music.load("Pop.mp3")
-                        pygame.mixer.music.play()
-                        self.canvas.delete(self.bullet_1)
-                        self.canvas.delete(self.meteorite_3)
-                        self.mb3 = False
-                        self.bc = False
-                        self.Score += 10
-            if self.mb4 != False:
-                if self.mb4[0]<self.pb[2]<self.mb4[2] and self.mb4[1]<self.pb[1]<self.mb4[3]:
-                    self.damagem4 += 1
-                    if self.damagem4 >= 3:
-                        pygame.mixer.music.load("Pop.mp3")
-                        pygame.mixer.music.play()
-                        self.canvas.delete(self.bullet_1)
-                        self.canvas.delete(self.meteorite_4)
-                        self.mb4 = False
-                        self.bc = False
-                        self.Score += 10
-            if self.bc == True:   
-                if self.bullet_coords[1]>20:
-                    x=0
-                    y=-150
-                    self.canvas.move(self.bullet_1,x,y)
-                    self.canvas.after(100,move_projectile)
-                else:
-                    self.canvas.delete(self.bullet_1)
-                    
+                self.canvas.move(self.ship_1,x,y)
+            #if self.sb
+           
         #Key bindings
         self.master.bind("<w>", up)
         self.master.bind("<d>", right)
         self.master.bind("<a>", left)
         self.master.bind("<s>", down)        
-        self.master.bind("<KeyRelease-space>", shoot)
 
     #Window for Level2    
     def Level_2(self):
@@ -300,6 +315,17 @@ class Main_window:
         self.canvas = Canvas(self.master,width=800, height=1000)
         self.canvas.place(x=0, y=0)
         #Important elements for the window, boss, info, and player.
+
+        self.meteorite=PhotoImage(file="Meteorito1.png")
+        self.meteorite_1= self.canvas.create_image(450,220, image= self.meteorite)
+        self.mb1= self.canvas.bbox(self.meteorite_1)
+        self.meteorite_2= self.canvas.create_image(250,220, image= self.meteorite)
+        self.mb2= self.canvas.bbox(self.meteorite_2)
+        self.meteorite_3= self.canvas.create_image(450,120, image= self.meteorite)
+        self.mb3= self.canvas.bbox(self.meteorite_3)
+        self.meteorite_4= self.canvas.create_image(650,220, image= self.meteorite)
+        self.mb4= self.canvas.bbox(self.meteorite_4)
+        
         self.ship2= PhotoImage(file="Nave2.png")
         self.ship_2= self.canvas.create_image(450,720, image= self.ship2)
         self.ship_coords2 = self.canvas.coords(self.ship_2)
@@ -307,28 +333,28 @@ class Main_window:
         self.bullet2=PhotoImage(file="Bullet1.png")
 
         self.Life_ship2= 50
-        self.Life_ship2I = Label(self.canvas,text="P:",font=("Arial", 22))
-        self.Life_ship2I.place(x=650, y=860)
-        self.Life_ship2 = Label(self.canvas,text="50",font=("Arial", 22))
-        self.Life_ship2.place(x=700, y=860)
+        self.Life_ship2I = Label(self.canvas,text="P:",font=("Arial", 20))
+        self.Life_ship2I.place(x=650, y=660)
+        self.Life_ship2 = Label(self.canvas,text="3",font=("Arial", 20))
+        self.Life_ship2.place(x=700, y=660)
         
-        self.ScoreL2=Label(self.canvas,text="Score: 0",font=("Arial", 22))
-        self.ScoreL2.place(x=40, y=900)
+        self.ScoreL2=Label(self.canvas,text="Score: 0",font=("Arial", 20))
+        self.ScoreL2.place(x=40, y=700)
 
-        self.Player_name2 =Label(self.canvas, text=self.name, font=("Arial", 22))
-        self.Player_name2.place (x=700, y=940)
+        self.Player_name2 =Label(self.canvas, text=self.name, font=("Arial", 20))
+        self.Player_name2.place (x=700, y=700)
 
-        self.Second2 = Label(self.canvas,text="",font=("Arial", 22))
-        self.Second2.place(x=60, y=940)
+        self.Second2 = Label(self.canvas,text="",font=("Arial", 20))
+        self.Second2.place(x=60, y=740)
         
-        self.Minute2 = Label(self.canvas,text="",font=("Arial", 22))
-        self.Minute2.place(x=15, y=940)
+        self.Minute2 = Label(self.canvas,text="",font=("Arial", 20))
+        self.Minute2.place(x=15, y=740)
 
-        self.dots2 = Label(self.canvas,text=":",font=("Arial", 22))
-        self.dots2.place(x=40, y=940)
+        self.dots2 = Label(self.canvas,text=":",font=("Arial", 20))
+        self.dots2.place(x=40, y=740)
 
         self.Menu_button2= Button(self.canvas,text="Main Menu", command = self.closeall)
-        self.Menu_button2.place(x=500,y=900)
+        self.Menu_button2.place(x=700,y=740)
         
         self.minute2= 0
         self.second2= 0
@@ -343,7 +369,118 @@ class Main_window:
             self.canvas.after(1000,Timer2)
             self.Second2.config(text=self.second2)
             self.Minute2.config(text=self.minute2)
-        Timer2()     
+        Timer2()
+
+        self.moveR=True
+        self.moveL=True
+        self.moveU=True
+        self.moveD=True
+        
+        self.move2R=True
+        self.move2L=True
+        self.move2U=True
+        self.move2D=True
+
+        self.move3R=True
+        self.move3L=True
+        self.move3U=True
+        self.move3D=True
+
+        self.move4R=True
+        self.move4L=True
+        self.move4U=True
+        self.move4D=True
+        
+        def coord_generator():
+            
+            self.xm1 = random.randint(10,30)
+            self.ym1 = random.randint(10,30)
+            self.xm2 = random.randint(10,30)
+            self.ym2 = random.randint(10,30)
+            self.xm3 = random.randint(10,30)
+            self.ym3 = random.randint(10,30)
+            self.xm4 = random.randint(10,30)
+            self.ym4 = random.randint(10,30)
+            
+        def move_meteorite():
+            self.meteorite1_coords= self.canvas.coords(self.meteorite_1)
+            if self.meteorite1_coords[0] < 750 and self.moveR == True:
+                self.canvas.move(self.meteorite_1,self.xm1,0)
+            else:
+                if self.meteorite1_coords[0] > 50 and self.moveL == True:
+                    self.canvas.move(self.meteorite_1,-(self.xm1),0)
+                    self.moveR = False
+                else:
+                    self.moveR=True
+            if self.meteorite1_coords[1] < 750 and self.moveD == True:
+                self.canvas.move(self.meteorite_1,0,self.ym1)
+            else:
+                if self.meteorite1_coords[1] > 50 and self.moveU == True:
+                    self.canvas.move(self.meteorite_1,0,-(self.ym1))
+                    self.moveD = False
+                else:
+                    self.moveD=True
+                    
+            self.meteorite2_coords= self.canvas.coords(self.meteorite_2)
+            if self.meteorite2_coords[0] < 750 and self.move2R == True:
+                self.canvas.move(self.meteorite_2,self.xm2,0)
+            else:
+                if self.meteorite1_coords[0] > 50 and self.move2L == True:
+                    self.canvas.move(self.meteorite_2,-(self.xm2),0)
+                    self.move2R = False
+                else:
+                    self.move2R=True
+            if self.meteorite2_coords[1] < 750 and self.move2D == True:
+                self.canvas.move(self.meteorite_2,0,self.ym2)
+            else:
+                if self.meteorite2_coords[1] > 50 and self.move2U == True:
+                    self.canvas.move(self.meteorite_2,0,-(self.ym2))
+                    self.move2D = False
+                else:
+                    self.move2D=True
+
+            self.meteorite3_coords= self.canvas.coords(self.meteorite_3)
+            if self.meteorite3_coords[0] < 750 and self.move3R == True:
+                self.canvas.move(self.meteorite_3,self.xm3,0)
+            else:
+                if self.meteorite3_coords[0] > 50 and self.move3L == True:
+                    self.canvas.move(self.meteorite_3,-(self.xm3),0)
+                    self.move3R = False
+                else:
+                    self.move3R=True
+            if self.meteorite3_coords[1] < 750 and self.move3D == True:
+                self.canvas.move(self.meteorite_3,0,self.ym3)
+            else:
+                if self.meteorite3_coords[1] > 50 and self.move3U == True:
+                    self.canvas.move(self.meteorite_3,0,-(self.ym3))
+                    self.move3D = False
+                else:
+                    self.move3D=True
+
+            self.meteorite4_coords= self.canvas.coords(self.meteorite_4)
+            if self.meteorite4_coords[0] < 750 and self.move4R == True:
+                self.canvas.move(self.meteorite_4,self.xm4,0)
+            else:
+                if self.meteorite4_coords[0] > 50 and self.move4L == True:
+                    self.canvas.move(self.meteorite_4,-(self.xm4),0)
+                    self.move4R = False
+                else:
+                    self.move4R=True
+            if self.meteorite4_coords[1] < 750 and self.move4D == True:
+                self.canvas.move(self.meteorite_4,0,self.ym4)
+            else:
+                if self.meteorite4_coords[1] > 50 and self.move4U == True:
+                    self.canvas.move(self.meteorite_4,0,-(self.ym4))
+                    self.move4D = False
+                else:
+                    self.move4D=True
+                    
+            
+            
+            self.canvas.after(70,move_meteorite)
+        coord_generator()
+        move_meteorite()
+        
         #Player ship and projectile movement
         #Move ship +y
         def up2(event):
