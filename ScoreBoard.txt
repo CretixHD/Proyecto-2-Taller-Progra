@@ -1,5 +1,0 @@
-:60
-Arroz:50
-Shaggy:200
-Warito:300
-Cho:100
